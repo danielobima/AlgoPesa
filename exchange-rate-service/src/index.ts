@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import ratesRouter from "./routes/ratesRouter";
 
 dotenv.config();
 
@@ -16,6 +17,12 @@ app.use(
 // app.use(cookieParser());
 
 const port = parseInt(process.env.PORT || "3000", 10);
+
+const router = express.Router();
+
+router.use("/rates", ratesRouter);
+
+app.use("/api", router);
 
 (async () => {
   //   await transporter.verify();

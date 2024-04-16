@@ -1,11 +1,13 @@
 import { Router } from "express";
 import prisma from "../../config/prisma";
 import dayjs from "dayjs";
+import getRate from "../call";
 
-const router = Router();
+const ratesRouter = Router();
 
-router.get("/rate", async (req, res) => {
-  for (const key in req.query) {
+ratesRouter.get("/", async (req, res) => {
+  const params = ["crpyto", "currency", "amount"];
+  for (const key of params) {
     if (typeof req.query[key] !== "string") {
       res.status(400).send({
         message: "Invalid Request",
@@ -40,8 +42,8 @@ router.get("/rate", async (req, res) => {
     return;
   }
 
-  //call apis
-  const newAmount = 1;
+  //Get the rate for 1 algo, then save the rate in the database
+  const newAmount = await getRate(currency, 1);
 
   await prisma.rate.create({
     data: {
@@ -50,4 +52,13 @@ router.get("/rate", async (req, res) => {
       rate: newAmount,
     },
   });
+
+  res.status(200).send({
+    crpyto,
+    currency,
+    amount: newAmount * parseInt(amount),
+  });
+  return;
 });
+
+export default ratesRouter;
