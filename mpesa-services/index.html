@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <div>
+            <label for="">Phone Number</label>
+            <input type="text" name="phone_number">
+        </div>
+        <div>
+            <label for="">Amount in ksh</label>
+            <input type="text" name="amount_in_ksh">
+        </div>
+        <button type="submit">Send</button>
+    </form>
+</body>
+<script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', (event) => {
+        console.log("Submit event")
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(form);
+        const jsonData = Object.fromEntries(formData.entries());
+        console.log(jsonData)
+        fetch('http://localhost:3010/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        })
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error(error));
+    });
+</script>
+
+</html>
