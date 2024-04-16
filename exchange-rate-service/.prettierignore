@@ -1,7 +1,0 @@
-.docker
-coverage
-dist
-logs
-node_modules
-package-lock.json
-yarn.lock
