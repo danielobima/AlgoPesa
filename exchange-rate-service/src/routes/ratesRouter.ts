@@ -1,7 +1,7 @@
 import { Router } from "express";
 import prisma from "../../config/prisma";
 import dayjs from "dayjs";
-import getRate from "../call";
+import { getRate } from "../call";
 
 const ratesRouter = Router();
 
