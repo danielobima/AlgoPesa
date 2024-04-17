@@ -9,22 +9,87 @@
 
 <body>
     <form>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 50px;
+            }
+            
+            form {
+                background-color: #fff;
+                border-radius: 5px;
+                padding: 20px;
+                max-width: 500px;
+                margin: 0 auto;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+            
+            input[type="text"] {
+                width: 80%;
+                padding: 10px;
+                margin-bottom: 20px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            
+            button[type="submit"] {
+                background-color: #007BFF;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+            </style>
         <div>
-            <label for="">Phone Number</label>
-            <input type="text" name="phone_number">
+            <label for="amount_in_ksh">Amount in Ksh</label>
+            <input type="text" id="amount_in_ksh" name="amount_in_ksh" title="Enter the amount in Ksh" placeholder="Enter amount">
+        </div>
+        <button type="button" id="query_button">Query</button>
+        <div>
+            <label for="amount_in_algorand">Amount in Algorand</label>
+            <input type="text" id="amount_in_algorand" name="amount_in_algorand" disabled>
         </div>
         <div>
-            <label for="">Amount in ksh</label>
-            <input type="text" name="amount_in_ksh">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" id="phone_number" name="phone_number" title="Enter your phone number" placeholder="123-456-7890">
         </div>
         <button type="submit">Send</button>
     </form>
 </body>
 <script>
     const form = document.querySelector('form');
+    const kesInput = document.getElementById('amount_in_ksh');
+    const algorandInput = document.getElementById('amount_in_algorand');
+    const queryButton = document.getElementById('query_button');
+
+    // Query the equivalent amount in Algorand and trigger the payment process when the user clicks the query button
+    queryButton.addEventListener('click', () => {
+        const jsonData = { amount_in_ksh: kesInput.value };
+
+        fetch('http://localhost:3010/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonData)
+        })
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            // Update the Algorand amount field with the amount received from the server
+            algorandInput.value = data.amount_in_algorand;
+        })
+        .catch(error => console.error(error));
+    });
 
     form.addEventListener('submit', (event) => {
-        console.log("Submit event")
         event.preventDefault(); // Prevent default form submission
 
         const formData = new FormData(form);
@@ -42,5 +107,6 @@
             .catch(error => console.error(error));
     });
 </script>
+
 
 </html>

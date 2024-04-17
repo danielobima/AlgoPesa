@@ -3,6 +3,7 @@ const path = require('path');
 let PORT = 3010 || process.env.PORT
 
 const app = express();
+const { getRate } = require('./call.js');
 
 app.use(express.json())
 const { default: axios } = require('axios');
@@ -16,11 +17,14 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"))
 })
 
-app.post("/pay", (req, res) => {
+app.post("/pay", async (req, res) => {
     console.log(req.body)
     const { phone_number } = req.body
     const { amount_in_ksh } = req.body
     const mpesaPayment = async () => {
+        const amount_in_algorand = await getRate('KES', amount_in_ksh);
+        console.log('Amount in Algorand:', amount_in_algorand);
+        res.json({ amount_in_algorand });
         const { data } = await axios.post(
             `https://pay.little.africa/api/payments/${tokenId}/pay`,
             {
@@ -74,7 +78,8 @@ app.post("/pay", (req, res) => {
     mpesaPayment()
         .then(() => console.log('Payment successful'))
         .catch(console.error);
-})
+});
+
 app.listen(PORT, () => {
     console.log("Listening on http://localhost:3010/")
 })
