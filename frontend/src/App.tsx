@@ -8,6 +8,7 @@ import Home from "./Home";
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from "./utils/network/getAlgoClientConfigs";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RatesPage from "./pages/rates";
+import HomePage from "./pages";
 
 let providersArray: ProvidersArray;
 if (import.meta.env.VITE_ALGOD_NETWORK === "") {
@@ -38,6 +39,10 @@ if (import.meta.env.VITE_ALGOD_NETWORK === "") {
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/convert",
     element: <RatesPage />,
   },
 ]);

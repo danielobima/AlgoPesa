@@ -1,8 +1,12 @@
 // src/components/Home.tsx
 import { useWallet } from "@txnlab/use-wallet";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConnectWallet from "../components/ConnectWallet";
 import getRate, { getRateParams } from "../apis/getRates";
+import convert from "../apis/convert";
+import "../styles/convert.css";
+import "../styles/styles.css";
+// import "../styles/App.css";
 
 interface HomeProps {}
 
@@ -15,6 +19,8 @@ const RatesPage: React.FC<HomeProps> = () => {
     currency: "KES",
     amount: "",
   });
+  const [phone_number, setPhone_number] = useState<string>("");
+  const [conversionResponse, setConversionResponse] = useState<any | null>(null);
 
   const [amountInAlgos, setAmountInAlgos] = useState<string>("");
 
@@ -28,6 +34,19 @@ const RatesPage: React.FC<HomeProps> = () => {
     }
   };
 
+  const handleConvert = async () => {
+    try {
+      const response = await convert({
+        amount_in_ksh: params.amount,
+        phone_number,
+      });
+      setConversionResponse(response);
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal);
   };
@@ -36,47 +55,75 @@ const RatesPage: React.FC<HomeProps> = () => {
     setOpenDemoModal(!openDemoModal);
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (params.amount) {
+        handleGetRate();
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [params.amount]);
+
   return (
-    <div className="hero min-h-screen bg-teal-400">
-      <div className="hero-content text-center rounded-lg p-6 max-w-md bg-white mx-auto">
-        <div className="max-w-md">
-          <div>
-            <label htmlFor="amount_in_ksh">Amount in Ksh</label>
-            <input
-              type="text"
-              id="amount_in_ksh"
-              name="amount_in_ksh"
-              title="Enter the amount in Ksh"
-              placeholder="Enter amount"
-              value={params.amount}
-              onChange={(e) => {
-                setParams((prev) => ({ ...prev, amount: e.target.value }));
-              }}
-            />
-          </div>
-          <button
-            type="button"
-            id="query_button"
-            onClick={() => {
-              handleGetRate();
-            }}
-          >
-            Query
-          </button>
-          <div>
-            <label htmlFor="amount_in_algorand">Amount in Algorand</label>
-            <input type="text" id="amount_in_algorand" name="amount_in_algorand" disabled value={amountInAlgos} />
-          </div>
-          {/* <div>
-            <label htmlFor="phone_number">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" title="Enter your phone number" placeholder="123-456-7890" />
-          </div> */}
-          {/* <button type="submit">Send</button> */}
-          <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-          {/* <Transact openModal={openDemoModal} setModalState={setOpenDemoModal} /> */}
+    <>
+      <img className="hero__section-img" src="/assests/pictures/screen2.jpg" alt="" />
+      <section className="convert">
+        <div className="convert-logic">
+          <p>ALGO</p>
+          <img src="./assests/svg/dropdown.svg" alt="" />
         </div>
-      </div>
-    </div>
+        <div className="convert-input">
+          <label htmlFor="">Phone Number</label>
+          <input
+            aria-label="phone"
+            className="gradient-input-text"
+            type="text"
+            value={phone_number}
+            onChange={(e) => {
+              setPhone_number(e.target.value);
+            }}
+          />
+        </div>
+        <div className="convert-input">
+          <label htmlFor="">Amount (KES)</label>
+          <input
+            aria-label="amount"
+            className="gradient-input-text"
+            type="number"
+            value={params.amount}
+            onChange={(e) => {
+              setParams((prev) => ({
+                ...prev,
+                amount: e.target.value,
+              }));
+            }}
+          />
+        </div>
+        <div className="converted-amount">
+          {amountInAlgos && <p>{amountInAlgos} ALGO</p>}
+          <span>{/* <img src="./assests/icons/two-arrows (3).png" alt="" /> */}</span>
+        </div>
+        <button
+          className="convert-button"
+          onClick={() => {
+            handleConvert();
+          }}
+        >
+          Convert
+        </button>
+
+        {conversionResponse && (
+          <>
+            <p>{conversionResponse?.message}</p>
+            <p>Transaction ID: {conversionResponse?.transactionId}</p>
+            <p>ALGO: {conversionResponse?.amount_in_algorand}</p>
+          </>
+        )}
+
+        <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
+      </section>
+    </>
   );
 };
 
