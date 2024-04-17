@@ -15,7 +15,6 @@ async function getRate(currency: string, amount: number): Promise<number> {
     );
 
     const algorandPriceUSD = algorandResponse.data[0].current_price;
-    // console.log(`Algorand Price in USD: ${algorandPriceUSD}, Type: ${typeof algorandPriceUSD}`);
 
     //getting conversion rate of USD to KES
     const conversionResponse = await axios.get(
@@ -27,12 +26,11 @@ async function getRate(currency: string, amount: number): Promise<number> {
         },
       }
     );
-    // console.log(conversionResponse.data);
 
     const usdToKesRate = conversionResponse.data.data.KES.value;
-    // console.log(`USD to KES Rate: ${usdToKesRate}, Type: ${typeof usdToKesRate}`);
+
     // conversion
-    const rate = amount * algorandPriceUSD * usdToKesRate;
+    const rate = 1 / (algorandPriceUSD * usdToKesRate);
 
     return rate;
   } catch (error) {
@@ -41,4 +39,9 @@ async function getRate(currency: string, amount: number): Promise<number> {
   }
 }
 
-export default getRate;
+getRate('KES', 1)
+    .then(response => console.log(response))
+    .catch(error => console.error(error));
+    
+
+export { getRate };
