@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-04-16T13:01:21.625Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.1.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="0aW7cEn6x_bpedfcLxmp" version="24.1.0" type="device" pages="3">
+<mxfile host="Electron" modified="2024-04-17T08:59:31.837Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.1.0 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="u-DNAL38_1eMsYT83YSn" version="24.1.0" type="device" pages="4">
   <diagram name="Page-1" id="yeBoTU2P19gPhXbxnNMf">
     <mxGraphModel dx="1364" dy="963" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -142,6 +142,49 @@
         </mxCell>
         <mxCell id="n6PVObbge--Cpf6NgM14-8" value="Smart contract" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="510" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="j1MJVj28SXMITlPpgtT9" name="Page-4">
+    <mxGraphModel dx="1364" dy="963" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sz9zrcaLeqlniz8K6w3e-1" target="sz9zrcaLeqlniz8K6w3e-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-1" value="/pay&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sz9zrcaLeqlniz8K6w3e-2" target="sz9zrcaLeqlniz8K6w3e-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-2" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="1" vertex="1">
+          <mxGeometry x="420" y="210" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-3" value="Unique ID&lt;div&gt;Address&lt;/div&gt;&lt;div&gt;Amount in ALGOS&lt;/div&gt;&lt;div&gt;Amoiunt in KES&lt;/div&gt;&lt;div&gt;Mobile Number&lt;/div&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="sz9zrcaLeqlniz8K6w3e-1" target="sz9zrcaLeqlniz8K6w3e-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sz9zrcaLeqlniz8K6w3e-5" target="sz9zrcaLeqlniz8K6w3e-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-5" value="MPESA" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="sz9zrcaLeqlniz8K6w3e-6" target="sz9zrcaLeqlniz8K6w3e-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-6" value="/callback" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="630" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sz9zrcaLeqlniz8K6w3e-10" value="Call the smart contract" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="830" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NiaRztFY-unfyz6D4Rip-1" value="Cahnges" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="395" y="588" width="70" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
