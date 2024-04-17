@@ -72,7 +72,11 @@ app.post("/pay", async (req, res) => {
             }
         );
 
-        console.log(paymentResponse.data);
+        // console.log(JSON.stringify(paymentResponse.data, null, 2));
+        console.log('Amount in KES:', paymentResponse.data.data.meta.amount);
+        console.log('Mobile Number:', paymentResponse.data.data.meta.mpesaResponse.MobileNumber);
+        console.log('Transaction ID:', paymentResponse.data.data.meta.mpesaResponse.TrxID);
+
     };
 
     mpesaPayment()
