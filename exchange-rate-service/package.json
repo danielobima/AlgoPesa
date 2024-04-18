@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@algorandfoundation/algokit-utils": "^5.8.0",
     "@prisma/client": "^5.12.1",
+    "algosdk": "^2.7.0",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",

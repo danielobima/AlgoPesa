@@ -1,8 +1,15 @@
 import { Router } from "express";
-import prisma from "../../config/prisma";
 import dayjs from "dayjs";
 import { getRate } from "../call";
 import axios from "axios";
+
+import * as trxClient from "../client";
+import algosdk from "algosdk";
+
+const algodServer = "https://testnet-api.algonode.cloud";
+
+const algodClient = new algosdk.Algodv2("", algodServer, "");
+// const indexer = new algosdk.Indexer("", "https://testnet-idx.algonode.cloud", "");
 
 const clientId = "a4c06d2fd0948a4a";
 const clientSecret = "qFpbf6xQt8wvzaIuvc2Cfg==";
@@ -54,8 +61,10 @@ router.post("/pay", async (req, res) => {
   try {
     console.log(req.body);
     const { phone_number } = req.body;
-    const { amount_in_ksh } = req.body;
+    const { amount_in_ksh, addr } = req.body;
+
     const amount_in_algorand = await getRate("KES", amount_in_ksh);
+
     console.log("Amount in Algorand:", amount_in_algorand);
     const { data } = await axios.post(
       `https://pay.little.africa/api/payments/${tokenId}/pay`,
@@ -118,11 +127,30 @@ router.post("/pay", async (req, res) => {
 
     const transactionId = paymentResponse.data.data.meta.mpesaResponse.TrxID;
 
+    const client = new trxClient.TransferClient(
+      {
+        id: 643930681,
+        resolveBy: "id",
+      },
+      algodClient
+    );
+
+    const transactionResponse = await client.transaction(
+      {
+        addr,
+        amount: parseInt((amount_in_algorand * 1000000).toFixed(0)),
+      },
+      {
+        sender: algosdk.mnemonicToSecretKey(process.env.MNEMONIC ?? ""),
+      }
+    );
+
     res.status(200).send({
       message: "Payment successful",
       amount_in_ksh,
       transactionId,
       amount_in_algorand,
+      transactionResponse: transactionResponse.return,
     });
   } catch (error: any) {
     console.log(error.response?.data?.message ?? error.message);
