@@ -48,9 +48,13 @@ const RatesPage: React.FC<HomeProps> = () => {
   const handleConvert = async () => {
     setConversionLoading(true);
     try {
+      if (!activeAddress) {
+        throw new Error("Please connect your wallet");
+      }
       const response = await convert({
         amount_in_ksh: params.amount,
         phone_number,
+        addr: activeAddress,
       });
       setConversionResponse(response);
       setResponseOpen(true);

@@ -1,7 +1,7 @@
 import axios from "axios";
 import baseAxios from "./axios";
 
-export type convertParams = { amount_in_ksh: string; phone_number: string };
+export type convertParams = { amount_in_ksh: string; phone_number: string; addr: string };
 export type ConversionResponse = {
   message: string;
   amount_in_ksh?: string;
