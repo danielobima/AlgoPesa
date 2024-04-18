@@ -28,7 +28,7 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
     >
       <DialogTitle>{activeAddress ? "Your Wallet" : "Select wallet Provider"}</DialogTitle>
       <DialogContent>
-        <Stack py={2}>
+        <Stack py={2} spacing={2}>
           {activeAddress && (
             <>
               <Account />
