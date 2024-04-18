@@ -1,7 +1,20 @@
 import axios from "axios";
+import prisma from "../config/prisma";
+import dayjs from "dayjs";
 
 async function getRate(currency: string, amount: number): Promise<number> {
   try {
+    //first check database
+    const dbRate = await prisma.rate.findFirst({
+      where: {
+        crpyto: "ALGO",
+      },
+    });
+
+    if (dbRate && dayjs(dbRate.updatedAt).isAfter(dayjs().subtract(1, "hour"))) {
+      return dbRate.rate;
+    }
+
     // getting price of Algorand in dollars
     const algorandResponse = await axios.get("https://api.coingecko.com/api/v3/coins/markets", {
       params: {
@@ -25,6 +38,14 @@ async function getRate(currency: string, amount: number): Promise<number> {
 
     // conversion
     const rate = 1 / (algorandPriceUSD * usdToKesRate);
+
+    await prisma.rate.create({
+      data: {
+        crpyto: "ALGO",
+        currency,
+        rate,
+      },
+    });
 
     return rate;
   } catch (error) {

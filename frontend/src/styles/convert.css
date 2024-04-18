@@ -137,6 +137,13 @@ body {
   align-items: center;
   font-size: 18px;
   font-weight: 600;
+  cursor: pointer;
   border-radius: 72px;
   background: var(--Gradient-06, linear-gradient(91deg, #8ad4ec 0%, #ef96ff 21.74%, #ff56a9 54.03%, #ffaa6c 85.28%));
+  box-shadow: 0 8px 16px 0 #ff56a9;
+  transition: all 0.3s ease;
+}
+
+.convert-button:hover {
+  box-shadow: 0 8px 32px 0 #ef96ff;
 }

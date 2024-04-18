@@ -88,6 +88,12 @@ body {
   border-radius: 10px;
   border: 1px solid var(--gradient-light, rgba(255, 255, 255, 0.47));
   background: var(--gradient-main, linear-gradient(225deg, #18c8ff 14.89%, #933ffe 85.85%));
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navbar-button:hover {
+  box-shadow: 0 3px 32px 10px #ef96ff;
 }
 
 .brand {

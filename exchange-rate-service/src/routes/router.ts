@@ -12,6 +12,7 @@ const router = Router();
 
 router.get("/rates", async (req, res) => {
   try {
+    console.log("getting rates");
     const params = ["crpyto", "currency", "amount"];
     for (const key of params) {
       if (typeof req.query[key] !== "string") {
@@ -32,34 +33,9 @@ router.get("/rates", async (req, res) => {
       amount: string;
     };
 
-    //first check database
-    const rate = await prisma.rate.findFirst({
-      where: {
-        crpyto,
-      },
-    });
-
-    if (rate && dayjs(rate.updatedAt).isAfter(dayjs().subtract(1, "hour"))) {
-      res.status(200).send({
-        crpyto: rate.crpyto,
-        currency: rate.currency,
-        amount: rate.rate * parseInt(amount),
-      });
-      return;
-    }
-
     //Get the rate for 1 algo, then save the rate in the database
     const newAmount = await getRate(currency, 1);
 
-    await prisma.rate.create({
-      data: {
-        crpyto,
-        currency,
-        rate: newAmount,
-      },
-    });
-
-    console.log("New rate saved");
     res.status(200).send({
       crpyto,
       currency,

@@ -9,6 +9,7 @@ import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } fr
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RatesPage from "./pages/rates";
 import HomePage from "./pages";
+import { ThemeProvider, createTheme } from "@mui/material";
 
 let providersArray: ProvidersArray;
 if (import.meta.env.VITE_ALGOD_NETWORK === "") {
@@ -61,11 +62,19 @@ export default function App() {
     algosdkStatic: algosdk,
   });
 
+  const theme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+
   return (
-    <SnackbarProvider maxSnack={3}>
-      <WalletProvider value={walletProviders}>
-        <RouterProvider router={router} />
-      </WalletProvider>
-    </SnackbarProvider>
+    <ThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={3}>
+        <WalletProvider value={walletProviders}>
+          <RouterProvider router={router} />
+        </WalletProvider>
+      </SnackbarProvider>
+    </ThemeProvider>
   );
 }

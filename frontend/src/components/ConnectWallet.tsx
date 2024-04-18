@@ -1,6 +1,7 @@
 import { Provider, useWallet } from "@txnlab/use-wallet";
 import Account from "./Account";
 import { useEffect } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 
 interface ConnectWalletInterface {
   openModal: boolean;
@@ -17,31 +18,32 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
   }, [providers]);
 
   return (
-    <dialog
-      id="connect_wallet_modal"
-      className={`modal ${openModal ? "modal-open" : ""}`}
-      style={{ display: openModal ? "block" : "none" }}
+    <Dialog
+      open={openModal}
+      onClose={() => {
+        closeModal();
+      }}
+      maxWidth="sm"
+      fullWidth
     >
-      <form method="dialog" className="modal-box">
-        <h3 className="font-bold text-2xl">Select wallet provider</h3>
-
-        <div className="grid m-2 pt-5">
+      <DialogTitle>{activeAddress ? "Your Wallet" : "Select wallet Provider"}</DialogTitle>
+      <DialogContent>
+        <Stack py={2}>
           {activeAddress && (
             <>
               <Account />
-              <div className="divider" />
+              <Divider />
             </>
           )}
-
           {!activeAddress &&
             providers?.map((provider) => (
-              <button
+              <Button
                 data-test-id={`${provider.metadata.id}-connect`}
-                className="btn border-teal-800 border-1  m-2"
                 key={`provider-${provider.metadata.id}`}
                 onClick={() => {
                   return provider.connect();
                 }}
+                variant="contained"
               >
                 {!isKmd(provider) && (
                   <img
@@ -51,45 +53,44 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
                   />
                 )}
                 <span>{isKmd(provider) ? "LocalNet Wallet" : provider.metadata.name}</span>
-              </button>
+              </Button>
             ))}
-        </div>
+        </Stack>
+      </DialogContent>
 
-        <div className="modal-action grid">
-          <button
-            data-test-id="close-wallet-modal"
-            className="btn"
+      <DialogActions>
+        {activeAddress && (
+          <Button
+            data-test-id="logout"
+            variant="outlined"
             onClick={() => {
-              closeModal();
+              if (providers) {
+                const activeProvider = providers.find((p) => p.isActive);
+                if (activeProvider) {
+                  activeProvider.disconnect();
+                } else {
+                  // Required for logout/cleanup of inactive providers
+                  // For instance, when you login to localnet wallet and switch network
+                  // to testnet/mainnet or vice verse.
+                  localStorage.removeItem("txnlab-use-wallet");
+                  window.location.reload();
+                }
+              }
             }}
           >
-            Close
-          </button>
-          {activeAddress && (
-            <button
-              className="btn btn-warning"
-              data-test-id="logout"
-              onClick={() => {
-                if (providers) {
-                  const activeProvider = providers.find((p) => p.isActive);
-                  if (activeProvider) {
-                    activeProvider.disconnect();
-                  } else {
-                    // Required for logout/cleanup of inactive providers
-                    // For instance, when you login to localnet wallet and switch network
-                    // to testnet/mainnet or vice verse.
-                    localStorage.removeItem("txnlab-use-wallet");
-                    window.location.reload();
-                  }
-                }
-              }}
-            >
-              Logout
-            </button>
-          )}
-        </div>
-      </form>
-    </dialog>
+            Logout
+          </Button>
+        )}
+        <Button
+          onClick={() => {
+            closeModal();
+          }}
+          variant="contained"
+        >
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 export default ConnectWallet;
